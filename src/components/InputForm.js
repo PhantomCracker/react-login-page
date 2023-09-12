@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import Input from './InputField';
-import './InputField.scss';
+import './InputForm.scss';
+import Popup from "./Popup";
 
 // Images
 import cartImage from "../images/cart.svg";
@@ -10,32 +13,36 @@ import lockIcon from "../images/lock.svg";
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [showPopup, setShowPopup] = useState(false);
+    const history = useHistory();
 
     const validateUsername = (value) => {
         if (!value) {
-            // return 'Username is required.';
+            return 'Username is required.';
         }
-        // Add additional validation logic if needed
-        // return null;
     };
 
     const validatePassword = (value) => {
-        if (!value) {
-            // return 'Password is required.';
+        const passwordPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+        if (!passwordPattern.test(value)) {
+            return 'Wrong combination';
         }
-        // Add additional validation logic if needed
-        // return null;/
     };
 
     const handleLogin = () => {
-        // Perform login logic using the username and password
-        if (username && password) {
-            // Handle successful login
-            console.log('Logged in with username:', username);
+        const testUsername = 'test@luxpmsoft.com';
+        const testPassword = 'test1234!';
+
+        if (username === testUsername && password === testPassword) {
+            history.push('/dashboard');
         } else {
-            // Handle login error
-            console.error('Login failed. Please check your credentials.');
+            setShowPopup(true);
         }
+    };
+
+    const handleClosePopup = () => {
+        setShowPopup(false);
     };
 
     return (
@@ -67,6 +74,9 @@ const Login = () => {
             </div>
             <button className="login-button" onClick={handleLogin}>LOGIN</button>
             <p className="forgot-password">Forgot password?</p>
+            {showPopup && (
+                <Popup message="The provided password is wrong" onClose={handleClosePopup} />
+            )}
         </div>
     );
 };

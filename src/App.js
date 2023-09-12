@@ -1,13 +1,18 @@
-// import logo from './logo.svg';
 import React from "react";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
 import './App.scss';
 import InputForm from "./components/InputForm";
+import Dashboard from "./components/Dashboard";
 
 function App() {
     return (
-        <div className="login-app">
-            <InputForm />
-        </div>
+        <Router>
+            <Switch>
+                <Route exact path="/" component={InputForm} />
+                <Route path="/dashboard" component={Dashboard} />
+            </Switch>
+        </Router>
     );
 }
 

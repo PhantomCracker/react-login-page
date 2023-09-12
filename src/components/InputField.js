@@ -1,5 +1,3 @@
-// Input.js
-
 import React, { useState } from 'react';
 import './InputField.scss';
 
